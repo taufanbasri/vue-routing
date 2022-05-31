@@ -29,22 +29,38 @@ const router = createRouter({
         },
       ],
     },
-    { path: '/users', components: {
-      default: UsersList,
-      footer: UsersFooter
-    } },
+    {
+      path: '/users',
+      components: {
+        default: UsersList,
+        footer: UsersFooter,
+      },
+    },
     { path: '/:notFound(.*)', component: NotFound },
   ],
   linkActiveClass: 'active',
-  scrollBehavior (to, from, savedPosition) {
-    console.log(to, from, savedPosition);
+  scrollBehavior(_, _2, savedPosition) {
     if (savedPosition) {
       return savedPosition;
     }
     return {
-      left: 0, top: 0
-    }
-  }
+      left: 0,
+      top: 0,
+    };
+  },
+});
+
+router.beforeEach((to, from, next) => {
+  console.log('Global beforeEach');
+  console.log(to, from);
+
+  // if (to.name === 'teams-member') {
+  //   next();
+  // } else {
+  //   next({ name: 'teams-member', params: { teamId: 't2' } })
+  // }
+
+  next();
 });
 
 const app = createApp(App);
